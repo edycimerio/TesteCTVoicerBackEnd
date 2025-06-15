@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: chatbot-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chatbotdb
+    ports:
+      - "5433:5432"  # Usando porta 5433 externamente para evitar conflitos
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - chatbot-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: chatbot-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@chatbot.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5051:80"  # Usando porta 5051 para evitar conflitos
+    depends_on:
+      - postgres
+    networks:
+      - chatbot-network
+    restart: unless-stopped
+
+networks:
+  chatbot-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

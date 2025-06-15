@@ -23,6 +23,6 @@ namespace ChatBot.Domain.Interfaces
         /// <summary>
         /// Obtém uma mensagem pelo seu ID
         /// </summary>
-        Task<Message> GetByIdAsync(Guid id);
+        Task<Message?> GetByIdAsync(Guid id);
     }
 }

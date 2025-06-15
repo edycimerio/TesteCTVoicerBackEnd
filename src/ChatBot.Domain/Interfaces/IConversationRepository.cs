@@ -23,7 +23,7 @@ namespace ChatBot.Domain.Interfaces
         /// <summary>
         /// Obtém uma conversa pelo seu ID
         /// </summary>
-        Task<Conversation> GetByIdAsync(Guid id);
+        Task<Conversation?> GetByIdAsync(Guid id);
         
         /// <summary>
         /// Obtém todas as conversas ativas
@@ -33,6 +33,6 @@ namespace ChatBot.Domain.Interfaces
         /// <summary>
         /// Obtém o histórico completo de uma conversa, incluindo todas as mensagens
         /// </summary>
-        Task<Conversation> GetConversationWithMessagesAsync(Guid id);
+        Task<Conversation?> GetConversationWithMessagesAsync(Guid id);
     }
 }

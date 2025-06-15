@@ -17,10 +17,9 @@ namespace ChatBot.Infrastructure.Persistence.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<Message> AddAsync(Message message)
+        public async Task AddAsync(Message message)
         {
             await _dbContext.Messages.AddAsync(message);
-            return message;
         }
 
         public async Task<IEnumerable<Message>> GetByConversationIdAsync(Guid conversationId)
@@ -31,7 +30,7 @@ namespace ChatBot.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Message> GetByIdAsync(Guid id)
+        public async Task<Message?> GetByIdAsync(Guid id)
         {
             return await _dbContext.Messages
                 .Include(m => m.Conversation)

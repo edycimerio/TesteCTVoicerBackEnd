@@ -18,19 +18,18 @@ namespace ChatBot.Infrastructure.Persistence.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<Conversation> AddAsync(Conversation conversation)
+        public async Task AddAsync(Conversation conversation)
         {
             await _dbContext.Conversations.AddAsync(conversation);
-            return conversation;
         }
 
-        public Task<Conversation> UpdateAsync(Conversation conversation)
+        public Task UpdateAsync(Conversation conversation)
         {
             _dbContext.Entry(conversation).State = EntityState.Modified;
-            return Task.FromResult(conversation);
+            return Task.CompletedTask;
         }
 
-        public async Task<Conversation> GetByIdAsync(Guid id)
+        public async Task<Conversation?> GetByIdAsync(Guid id)
         {
             return await _dbContext.Conversations
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -44,7 +43,7 @@ namespace ChatBot.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Conversation> GetConversationWithMessagesAsync(Guid id)
+        public async Task<Conversation?> GetConversationWithMessagesAsync(Guid id)
         {
             return await _dbContext.Conversations
                 .Include(c => c.Messages.OrderBy(m => m.SentAt))

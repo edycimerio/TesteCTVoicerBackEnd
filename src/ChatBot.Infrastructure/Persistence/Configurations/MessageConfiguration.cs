@@ -18,13 +18,11 @@ namespace ChatBot.Infrastructure.Persistence.Configurations
                 .HasMaxLength(4000);
                 
             builder.Property(m => m.Sender)
-                .IsRequired()
-                .HasConversion<string>();
+                .IsRequired();
                 
             builder.Property(m => m.SentAt)
                 .IsRequired();
                 
-            // Relacionamento com conversa (many-to-one)
             builder.HasOne(m => m.Conversation)
                 .WithMany(c => c.Messages)
                 .HasForeignKey(m => m.ConversationId)

@@ -17,17 +17,14 @@ namespace ChatBot.Application.Commands.EndConversation
 
         public async Task<bool> Handle(EndConversationCommand request, CancellationToken cancellationToken)
         {
-            // Buscar a conversa
             var conversation = await _unitOfWork.ConversationRepository.GetByIdAsync(request.ConversationId);
             if (conversation == null)
             {
                 throw new ArgumentException($"Conversa com ID {request.ConversationId} não encontrada.");
             }
 
-            // Encerrar a conversa
             conversation.End();
             
-            // Salvar as alterações
             await _unitOfWork.ConversationRepository.UpdateAsync(conversation);
             await _unitOfWork.SaveChangesAsync();
 

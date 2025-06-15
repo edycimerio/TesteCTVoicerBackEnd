@@ -4,9 +4,7 @@ using System.Collections.Generic;
 
 namespace ChatBot.Domain.Entities
 {
-    /// <summary>
-    /// Representa uma conversa entre usuário e bot
-    /// </summary>
+
     public class Conversation
     {
         public Guid Id { get; private set; }
@@ -14,13 +12,16 @@ namespace ChatBot.Domain.Entities
         public DateTime? EndedAt { get; private set; }
         public ConversationStatus Status { get; private set; }
         
-        // Propriedade de navegação para mensagens
-        public virtual ICollection<Message> Messages { get; private set; }
 
-        // Construtor para EF Core
-        protected Conversation() { }
+        public virtual ICollection<Message> Messages { get; private set; } = new List<Message>();
 
-        // Construtor para nova conversa
+
+        protected Conversation() 
+        {
+            Messages = new List<Message>();
+        }
+
+
         public Conversation(Guid id)
         {
             Id = id;
@@ -29,13 +30,13 @@ namespace ChatBot.Domain.Entities
             Messages = new List<Message>();
         }
 
-        // Factory Method para criar nova conversa
+
         public static Conversation StartNew()
         {
             return new Conversation(Guid.NewGuid());
         }
 
-        // Método para finalizar a conversa
+
         public void End()
         {
             if (Status == ConversationStatus.Active)
@@ -45,7 +46,7 @@ namespace ChatBot.Domain.Entities
             }
         }
 
-        // Método para adicionar uma mensagem à conversa
+
         public Message AddMessage(string content, MessageSender sender)
         {
             if (Status != ConversationStatus.Active)

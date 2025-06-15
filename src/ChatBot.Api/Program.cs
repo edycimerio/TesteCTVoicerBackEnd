@@ -6,10 +6,10 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllers();
 
-// Configurar Swagger/OpenAPI
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Configurar CORS
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -31,23 +31,22 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader());
 });
 
-// Configurar Database
+
 DatabaseConfiguration.ConfigureServices(builder.Services);
 
-// Configurar Dependency Injection
+
 DependencyInjectionConfig.RegisterServices(builder.Services);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-// Sempre habilitar Swagger em ambiente de desenvolvimento
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChatBot API v1");
-        c.RoutePrefix = string.Empty; // Para servir a UI do Swagger na raiz
+        c.RoutePrefix = string.Empty;
     });
 }
 

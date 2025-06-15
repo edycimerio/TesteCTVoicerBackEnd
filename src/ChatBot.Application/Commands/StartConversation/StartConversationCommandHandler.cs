@@ -18,10 +18,8 @@ namespace ChatBot.Application.Commands.StartConversation
 
         public async Task<Guid> Handle(StartConversationCommand request, CancellationToken cancellationToken)
         {
-            // Criar uma nova conversa usando o factory method
             var conversation = Conversation.StartNew();
 
-            // Persistir no banco de dados
             await _unitOfWork.ConversationRepository.AddAsync(conversation);
             await _unitOfWork.SaveChangesAsync();
 

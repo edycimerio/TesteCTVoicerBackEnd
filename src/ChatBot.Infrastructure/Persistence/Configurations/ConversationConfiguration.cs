@@ -17,16 +17,13 @@ namespace ChatBot.Infrastructure.Persistence.Configurations
                 .IsRequired();
                 
             builder.Property(c => c.Status)
-                .IsRequired()
-                .HasConversion<string>();
+                .IsRequired();
                 
-            // Relacionamento com mensagens (one-to-many)
             builder.HasMany(c => c.Messages)
                 .WithOne(m => m.Conversation)
                 .HasForeignKey(m => m.ConversationId)
                 .OnDelete(DeleteBehavior.Cascade);
                 
-            // Índice para consultas por status
             builder.HasIndex(c => c.Status);
         }
     }

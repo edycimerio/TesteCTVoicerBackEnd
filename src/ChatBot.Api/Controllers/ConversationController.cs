@@ -24,10 +24,16 @@ namespace ChatBot.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Guid>> StartConversation()
         {
-            var command = new StartConversationCommand();
-            var conversationId = await _mediator.Send(command);
-            
-            return Ok(conversationId);
+            try
+            {
+                var command = new StartConversationCommand();
+                var conversationId = await _mediator.Send(command);
+                return Ok(conversationId);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Ocorreu um erro ao iniciar a conversa.");
+            }
         }
 
         [HttpGet]

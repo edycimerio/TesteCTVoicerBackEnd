@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChatBot.Api.Controllers
 {
+    // Controller responsável pelo envio de mensagens no chatbot
     [ApiController]
     [Route("api/[controller]")]
     public class MessageController : ControllerBase

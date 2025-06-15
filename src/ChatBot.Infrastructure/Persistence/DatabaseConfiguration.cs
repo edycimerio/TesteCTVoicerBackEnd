@@ -8,8 +8,12 @@ namespace ChatBot.Infrastructure.Persistence
 {
     public static class DatabaseConfiguration
     {
-        public static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureServices(IServiceCollection services)
         {
+            // Obter a configuração do serviço provider
+            var serviceProvider = services.BuildServiceProvider();
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
             // Configurar o DbContext com PostgreSQL
             services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(
@@ -22,8 +26,6 @@ namespace ChatBot.Infrastructure.Persistence
             
             // Registrar Unit of Work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            return services;
         }
     }
 }

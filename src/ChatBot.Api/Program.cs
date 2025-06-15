@@ -11,7 +11,15 @@ builder.Services.AddControllers();
 
 // Configurar Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "ChatBot API",
+        Version = "v1",
+        Description = "API para sistema de chatbot"
+    });
+});
 
 // Configurar CORS
 builder.Services.AddCors(options =>
@@ -32,10 +40,15 @@ DependencyInjectionConfig.RegisterServices(builder.Services);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+// Sempre habilitar Swagger em ambiente de desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChatBot API v1");
+        c.RoutePrefix = string.Empty; // Para servir a UI do Swagger na raiz
+    });
 }
 
 app.UseHttpsRedirection();
